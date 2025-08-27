@@ -1,0 +1,54 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"
+buildCommand = "echo 'Building Ollama Production Service...'"
+
+[deploy]
+restartPolicyType = "on-failure"
+restartPolicyMaxRetries = 5
+healthcheckPath = "/api/tags"
+healthcheckTimeout = 15
+healthcheckInterval = 30
+
+[variables]
+# Core Ollama Configuration
+OLLAMA_HOST = "0.0.0.0"
+OLLAMA_PORT = "11434"
+OLLAMA_KEEP_ALIVE = "24h"
+OLLAMA_MAX_LOADED_MODELS = "3"
+OLLAMA_FLASH_ATTENTION = "1"
+OLLAMA_NUM_PARALLEL = "2"
+
+# Phase 1 Models Configuration
+OLLAMA_MODELS = "phi3:3.8b,mistral:7b,llama3:8b,codellama:7b,qwen2:7b,command-r:35b"
+
+# Performance Optimization
+OLLAMA_MAX_QUEUE = "256"
+OLLAMA_CONCURRENT_REQUESTS = "4"
+OLLAMA_GPU_MEMORY_FRACTION = "0.9"
+
+# Logging and Monitoring
+OLLAMA_DEBUG = "false"
+OLLAMA_LOG_LEVEL = "info"
+LOG_FORMAT = "json"
+
+# Resource Management for Railway
+RAILWAY_RUN_UID = "1001"
+RAILWAY_HEALTHCHECK_TIMEOUT = "15"
+RAILWAY_GRACEFUL_SHUTDOWN_TIMEOUT = "30"
+
+# Backup Configuration
+BACKUP_ENABLED = "true"
+BACKUP_RETENTION_DAYS = "7"
+BACKUP_SCHEDULE = "daily"
+
+# Integration Settings
+MEETING_INTELLIGENCE_SERVICE = "meeting-assistant-production-c5e4.up.railway.app"
+HEALTH_CHECK_ENABLED = "true"
+METRICS_ENABLED = "true"
+
+[resources]
+# Optimized for cost efficiency - targeting $50/month
+memory = "2GB"
+cpu = "1000m"
+storage = "10GB"
