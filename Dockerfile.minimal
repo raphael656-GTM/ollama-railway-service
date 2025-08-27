@@ -4,5 +4,5 @@ FROM ollama/ollama:latest
 # Expose port
 EXPOSE 11434
 
-# Just run Ollama directly
-CMD ["ollama", "serve"]
+# Run Ollama serve command using shell form
+CMD /bin/ollama serve
