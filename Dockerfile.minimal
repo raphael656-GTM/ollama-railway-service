@@ -4,5 +4,6 @@ FROM ollama/ollama:latest
 # Expose port
 EXPOSE 11434
 
-# Run Ollama serve command using shell form
-CMD /bin/ollama serve
+# Override entrypoint and run Ollama serve
+ENTRYPOINT ["/bin/ollama"]
+CMD ["serve"]
