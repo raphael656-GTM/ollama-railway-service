@@ -45,7 +45,7 @@ HEALTH_CHECK_ENABLED = "true"
 METRICS_ENABLED = "true"
 
 [resources]
-# Optimized for cost efficiency - targeting $50/month
+# Increased storage for model downloads
 memory = "2GB"
 cpu = "1000m"
-storage = "10GB"
+storage = "20GB"
