@@ -1,9 +1,15 @@
-# Minimal Ollama service for Railway - just run Ollama
+# Ollama service with automatic model downloads
 FROM ollama/ollama:latest
+
+# Install curl for health checks
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
+# Copy startup script
+COPY start-with-models.sh /start-with-models.sh
+RUN chmod +x /start-with-models.sh
 
 # Expose port
 EXPOSE 11434
 
-# Override entrypoint and run Ollama serve
-ENTRYPOINT ["/bin/ollama"]
-CMD ["serve"]
+# Run startup script that downloads models
+CMD ["/start-with-models.sh"]
