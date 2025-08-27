@@ -11,5 +11,6 @@ RUN chmod +x /start-with-models.sh
 # Expose port
 EXPOSE 11434
 
-# Run startup script that downloads models
+# Override entrypoint completely and run our script
+ENTRYPOINT []
 CMD ["/start-with-models.sh"]
