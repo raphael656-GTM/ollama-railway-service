@@ -38,29 +38,32 @@ echo "📊 Current models:"
 MODEL_COUNT=$(/bin/ollama list | grep -c ":" 2>/dev/null || echo "0")
 echo "Found $MODEL_COUNT models already downloaded"
 
-# Only download if we don't have all models
-if [ "$MODEL_COUNT" -lt 3 ]; then
-    echo "📥 Downloading missing models one at a time..."
+# Only download if we don't have 2 models (phi3 + mistral is enough for testing)
+if [ "$MODEL_COUNT" -lt 2 ]; then
+    echo "📥 Downloading mistral:7b (essential model)..."
     
-    # Check and download mistral:7b
+    # Check available space
+    AVAILABLE=$(df /root/.ollama | tail -1 | awk '{print $4}')
+    echo "Available space: ${AVAILABLE} KB"
+    
+    # Only download mistral if we have space and don't have it
     if ! /bin/ollama list | grep -q "mistral:7b"; then
-        echo "1️⃣ Downloading mistral:7b..."
-        /bin/ollama pull mistral:7b
-        echo "✅ mistral:7b download complete"
+        if [ "$AVAILABLE" -gt 1000000 ]; then  # More than 1GB available
+            echo "1️⃣ Downloading mistral:7b..."
+            if /bin/ollama pull mistral:7b; then
+                echo "✅ mistral:7b download successful"
+            else
+                echo "❌ mistral:7b download failed - not enough space"
+            fi
+        else
+            echo "⚠️ Not enough space for mistral:7b (need ~1GB free)"
+        fi
     fi
     
-    # Check disk space before second download
-    echo "💾 Disk space after mistral:"
+    echo "💾 Final disk usage:"
     df -h /root/.ollama/ || df -h /
-    
-    # Check and download llama3:8b
-    if ! /bin/ollama list | grep -q "llama3:8b"; then
-        echo "2️⃣ Downloading llama3:8b..."
-        /bin/ollama pull llama3:8b
-        echo "✅ llama3:8b download complete"
-    fi
 else
-    echo "✅ All models already downloaded"
+    echo "✅ Sufficient models already downloaded (phi3 + others)"
 fi
 
 echo "📊 Final model list:"

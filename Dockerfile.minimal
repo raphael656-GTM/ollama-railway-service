@@ -5,12 +5,12 @@ FROM ollama/ollama:latest
 RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
 
 # Copy startup script
-COPY start-with-models.sh /start-with-models.sh
-RUN chmod +x /start-with-models.sh
+COPY start-minimal.sh /start-minimal.sh
+RUN chmod +x /start-minimal.sh
 
 # Expose port
 EXPOSE 11434
 
 # Override entrypoint completely and run our script
 ENTRYPOINT []
-CMD ["/start-with-models.sh"]
+CMD ["/start-minimal.sh"]
