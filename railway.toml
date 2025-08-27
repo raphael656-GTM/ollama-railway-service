@@ -7,8 +7,8 @@ buildCommand = "echo 'Building Ollama Production Service...'"
 restartPolicyType = "ON_FAILURE"
 restartPolicyMaxRetries = 5
 healthcheckPath = "/api/tags"
-healthcheckTimeout = 15
-healthcheckInterval = 30
+healthcheckTimeout = 60
+healthcheckInterval = 60
 
 [variables]
 # Core Ollama Configuration

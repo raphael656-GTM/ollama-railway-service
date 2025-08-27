@@ -11,8 +11,8 @@ RUN chmod +x /start-simple.sh
 # Expose port
 EXPOSE 11434
 
-# Simple health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s \
+# Simple health check with longer start period for model downloads
+HEALTHCHECK --interval=30s --timeout=10s --start-period=300s \
   CMD curl -f http://localhost:11434/api/tags || exit 1
 
 # Run the simple startup script
