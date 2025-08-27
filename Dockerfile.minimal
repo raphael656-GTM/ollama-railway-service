@@ -1,0 +1,8 @@
+# Minimal Ollama service for Railway - just run Ollama
+FROM ollama/ollama:latest
+
+# Expose port
+EXPOSE 11434
+
+# Just run Ollama directly
+CMD ["ollama", "serve"]
